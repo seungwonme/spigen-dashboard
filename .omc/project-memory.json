@@ -1,0 +1,371 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1778558373574,
+  "projectRoot": "/Users/seungwonan/Dev/260512-슈피겐",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "next",
+        "version": "16.2.6",
+        "category": "fullstack"
+      },
+      {
+        "name": "react",
+        "version": "19.2.4",
+        "category": "frontend"
+      },
+      {
+        "name": "react-dom",
+        "version": "19.2.4",
+        "category": "frontend"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "npm run build",
+    "testCommand": null,
+    "lintCommand": "npm run lint",
+    "devCommand": "npm run dev",
+    "scripts": {
+      "dev": "next dev",
+      "build": "next build",
+      "start": "next start",
+      "lint": "eslint"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "public",
+      "src"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "data": {
+      "path": "data",
+      "purpose": "Data files",
+      "fileCount": 9,
+      "lastAccessed": 1778558373561,
+      "keyFiles": [
+        "zocoding_attribution_sample.csv",
+        "zocoding_inventory_sample.csv",
+        "zocoding_listing_sample.csv",
+        "zocoding_order_sample.csv",
+        "zocoding_sbCampaigns_sample.csv"
+      ]
+    },
+    "prompts": {
+      "path": "prompts",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1778558373561,
+      "keyFiles": [
+        "2026-05-12.json",
+        "prd-prompt.md"
+      ]
+    },
+    "public": {
+      "path": "public",
+      "purpose": "Public files",
+      "fileCount": 5,
+      "lastAccessed": 1778558373565,
+      "keyFiles": [
+        "file.svg",
+        "globe.svg",
+        "next.svg",
+        "vercel.svg",
+        "window.svg"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 0,
+      "lastAccessed": 1778558373565,
+      "keyFiles": []
+    },
+    "src/app": {
+      "path": "src/app",
+      "purpose": "Application code",
+      "fileCount": 4,
+      "lastAccessed": 1778558373565,
+      "keyFiles": [
+        "favicon.ico",
+        "globals.css",
+        "layout.tsx"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "src/app/page.tsx",
+      "accessCount": 6,
+      "lastAccessed": 1778560189810,
+      "type": "file"
+    },
+    {
+      "path": "package.json",
+      "accessCount": 3,
+      "lastAccessed": 1778559324810,
+      "type": "file"
+    },
+    {
+      "path": "src/app/layout.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1778559760539,
+      "type": "file"
+    },
+    {
+      "path": "src/app/products/page.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1778559799815,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/upload/route.ts",
+      "accessCount": 3,
+      "lastAccessed": 1778560370898,
+      "type": "file"
+    },
+    {
+      "path": "src/app/upload/page.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1778560395861,
+      "type": "file"
+    },
+    {
+      "path": "src/app/ads/page.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1778559789937,
+      "type": "file"
+    },
+    {
+      "path": "src/app/inventory/page.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1778559790846,
+      "type": "file"
+    },
+    {
+      "path": "src/app/traffic/page.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1778559795207,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/queries/inventory.ts",
+      "accessCount": 2,
+      "lastAccessed": 1778560319525,
+      "type": "file"
+    },
+    {
+      "path": "docs/PRD.md",
+      "accessCount": 1,
+      "lastAccessed": 1778558548578,
+      "type": "file"
+    },
+    {
+      "path": "next.config.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778558958921,
+      "type": "file"
+    },
+    {
+      "path": "tsconfig.json",
+      "accessCount": 1,
+      "lastAccessed": 1778558958977,
+      "type": "file"
+    },
+    {
+      "path": "src/app/globals.css",
+      "accessCount": 1,
+      "lastAccessed": 1778558963707,
+      "type": "file"
+    },
+    {
+      "path": "postcss.config.mjs",
+      "accessCount": 1,
+      "lastAccessed": 1778558968652,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778559254040,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/parsers/normalize-date.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778559259749,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/parsers/sp-campaigns.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778559264810,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/parsers/sb-campaigns.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778559268712,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/parsers/sd-campaigns.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778559273850,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/parsers/attribution.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778559279017,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/parsers/orders.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778559280024,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/parsers/listing.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778559283669,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/parsers/inventory.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778559286144,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/parsers/traffic.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778559290436,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/queries/summary.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778559444823,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/queries/ads.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778559459893,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/queries/products.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778559473839,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/queries/traffic.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778559489849,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/summary/route.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778559512832,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/ads/route.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778559515500,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/products/route.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778559518884,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/inventory/route.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778559520302,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/traffic/route.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778559524158,
+      "type": "file"
+    },
+    {
+      "path": "src/store/filter-store.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778559548852,
+      "type": "file"
+    },
+    {
+      "path": "src/components/layout/Sidebar.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1778559556132,
+      "type": "file"
+    },
+    {
+      "path": "src/components/layout/GlobalFilter.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1778559569007,
+      "type": "file"
+    },
+    {
+      "path": "src/components/cards/KpiCard.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1778559571059,
+      "type": "file"
+    },
+    {
+      "path": "src/components/tables/DataTable.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1778559586223,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/parsers/detect-type.ts",
+      "accessCount": 1,
+      "lastAccessed": 1778560334487,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

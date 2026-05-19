@@ -1,0 +1,112 @@
+[
+  {
+    "time": "12:09:32",
+    "user": "seungwonan",
+    "prompt": "안녕"
+  },
+  {
+    "time": "12:11:02",
+    "user": "seungwonan",
+    "prompt": "@data  업로드 시 에러\n\nRuntime TypeError\nNotAllowedError: Failed to execute 'writeText' on 'Clipboard': Write permission denied.\n\n\nCannot read properties of undefined (reading 'toLocaleString')\nCall Stack\n15\n\n<unknown>\nfile:///Users/seungwonan/Dev/260512-%E1%84%89%E1%85%B2%E1%84%91%E1%85%B5%E1%84%80%E1%85%A6%E1%86%AB/.next/dev/static/chunks/src_app_upload_page_tsx_10v96au._.js (200:49)\nArray.map\n<anonymous>\nUploadPage\nfile:///Users/seungwonan/Dev/260512-%E1%84%89%E1%85%B2%E1%84%91%E1%85%B5%E1%84%80%E1%85%A6%E1%86%AB/.next/dev/static/chunks/src_app_upload_page_tsx_10v96au._.js (158:29)\nObject.react_stack_bottom_frame\nfile:///Users/seungwonan/Dev/260512-%E1%84%89%E1%85%B2%E1%84%91%E1%85%B5%E1%84%80%E1%85%A6%E1%86%AB/.next/dev/static/chunks/0z~i_next_dist_compiled_react-dom_0-pjtxe._.js (15037:24)\nrenderWithHooks\nfile:///Users/seungwonan/Dev/260512-%E1%84%89%E1%85%B2%E1%84%91%E1%85%B5%E1%84%80%E1%85%A6%E1%86%AB/.next/dev/static/chunks/0z~i_next_dist_compiled_react-dom_0-pjtxe._.js (4620:24)\nupdateFunctionComponent\nfile:///Users/seungwonan/Dev/260512-%E1%84%89%E1%85%B2%E1%84%91%E1%85%B5%E1%84%80%E1%85%A6%E1%86%AB/.next/dev/static/chunks/0z~i_next_dist_compiled_react-dom_0-pjtxe._.js (6081:21)\nbeginWork\nfile:///Users/seungwonan/Dev/260512-%E1%84%89%E1%85%B2%E1%84%91%E1%85%B5%E1%84%80%E1%85%A6%E1%86%AB/.next/dev/static/chunks/0z~i_next_dist_compiled_react-dom_0-pjtxe._.js (6691:24)\nrunWithFiberInDEV\nfile:///Users/seungwonan/Dev/260512-%E1%84%89%E1%85%B2%E1%84%91%E1%85%B5%E1%84%80%E1%85%A6%E1%86%AB/.next/dev/static/chunks/0z~i_next_dist_compiled_react-dom_0-pjtxe._.js (965:74)\nperformUnitOfWork\nfile:///Users/seungwonan/Dev/260512-%E1%84%89%E1%85%B2%E1%84%91%E1%85%B5%E1%84%80%E1%85%A6%E1%86%AB/.next/dev/static/chunks/0z~i_next_dist_compiled_react-dom_0-pjtxe._.js (9555:97)\nworkLoopSync\nfile:///Users/seungwonan/Dev/260512-%E1%84%89%E1%85%B2%E1%84%91%E1%85%B5%E1%84%80%E1%85%A6%E1%86%AB/.next/dev/static/chunks/0z~i_next_dist_compiled_react-dom_0-pjtxe._.js (9449:40)\nrenderRootSync\nfile:///Users/seungwonan/Dev/260512-%E1%84%89%E1%85%B2%E1%84%91%E1%85%B5%E1%84%80%E1%85%A6%E1%86%AB/.next/dev/static/chunks/0z~i_next_dist_compiled_react-dom_0-pjtxe._.js (9433:13)\nperformWorkOnRoot\nfile:///Users/seungwonan/Dev/260512-%E1%84%89%E1%85%B2%E1%84%91%E1%85%B5%E1%84%80%E1%85%A6%E1%86%AB/.next/dev/static/chunks/0z~i_next_dist_compiled_react-dom_0-pjtxe._.js (9098:47)\nperformWorkOnRootViaSchedulerTask\nfile:///Users/seungwonan/Dev/260512-%E1%84%89%E1%85%B2%E1%84%91%E1%85%B5%E1%84%80%E1%85%A6%E1%86%AB/.next/dev/static/chunks/0z~i_next_dist_compiled_react-dom_0-pjtxe._.js (10255:9)\nMessagePort.performWorkUntilDeadline\nfile:///Users/seungwonan/Dev/260512-%E1%84%89%E1%85%B2%E1%84%91%E1%85%B5%E1%84%80%E1%85%A6%E1%86%AB/.next/dev/static/chunks/0z~i_next_dist_compiled_0fds868._.js (2647:64)\nClientPageRoot\nfile:///Users/seungwonan/Dev/260512-%E1%84%89%E1%85%B2%E1%84%91%E1%85%B5%E1%84%80%E1%85%A6%E1%86%AB/.next/dev/static/chunks/node_modules__pnpm_0-d-5ba._.js (5411:"
+  },
+  {
+    "time": "12:12:00",
+    "user": "seungwonan",
+    "prompt": "zocoding_attribution_sample.csvError: Could not locate the bindings file. Tried: → /Users/seungwonan/Dev/260512-슈피겐/node_modules/.pnpm/better-sqlite3@12.9.0/node_modules/better-sqlite3/build/better_sqlite3.node → /Users/seungwonan/Dev/260512-슈피겐/node_modules/.pnpm/better-sqlite3@12.9.0/node_modules/better-sqlite3/build/Debug/better_sqlite3.node → /Users/seungwonan/Dev/260512-슈피겐/node_modules/.pnpm/better-sqlite3@12.9.0/node_modules/better-sqlite3/build/Release/better_sqlite3.node → /Users/seungwonan/Dev/260512-슈피겐/node_modules/.pnpm/better-sqlite3@12.9.0/node_modules/better-sqlite3/out/Debug/better_sqlite3.node → /Users/seungwonan/Dev/260512-슈피겐/node_modules/.pnpm/better-sqlite3@12.9.0/node_modules/better-sqlite3/Debug/better_sqlite3.node → /Users/seungwonan/Dev/260512-슈피겐/node_modules/.pnpm/better-sqlite3@12.9.0/node_modules/better-sqlite3/out/Release/better_sqlite3.node → /Users/seungwonan/Dev/260512-슈피겐/node_modules/.pnpm/better-sqlite3@12.9.0/node_modules/better-sqlite3/Release/better_sqlite3.node → /Users/seungwonan/Dev/260512-슈피겐/node_modules/.pnpm/better-sqlite3@12.9.0/node_modules/better-sqlite3/build/default/better_sqlite3.node → /Users/seungwonan/Dev/260512-슈피겐/node_modules/.pnpm/better-sqlite3@12.9.0/node_modules/better-sqlite3/compiled/24.15.0/darwin/arm64/better_sqlite3.node → /Users/seungwonan/Dev/260512-슈피겐/node_modules/.pnpm/better-sqlite3@12.9.0/node_modules/better-sqlite3/addon-build/release/install-root/better_sqlite3.node → /Users/seungwonan/Dev/260512-슈피겐/node_modules/.pnpm/better-sqlite3@12.9.0/node_modules/better-sqlite3/addon-build/debug/install-root/better_sqlite3.node → /Users/seungwonan/Dev/260512-슈피겐/node_modules/.pnpm/better-sqlite3@12.9.0/node_modules/better-sqlite3/addon-build/default/install-root/better_sqlite3.node → /Users/seungwonan/Dev/260512-슈피겐/node_modules/.pnpm/better-sqlite3@12.9.0/node_modules/better-sqlite3/lib/binding/node-v137-darwin-arm64/better_sqlite3.node"
+  },
+  {
+    "time": "12:12:17",
+    "user": "seungwonan",
+    "prompt": "로컬 스토리지로 싹다 변경해줘 로컬 DB 말고"
+  },
+  {
+    "time": "12:58:37",
+    "user": "seungwonan",
+    "prompt": "Lockfile is up to date, resolution step is skipped\nAlready up to date\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: sharp@0.34.5, unrs-resolver@1.12.1\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n[ERROR] Command failed with exit code 1: /Users/seungwonan/.local/share/fnm/node-versions/v24.15.0/installation/bin/node /Users/seungwonan/Library/pnpm/global/v11/14b51-19e21509614/node_modules/pnpm/bin/pnpm.mjs install\n\npnpm: Command failed with exit code 1: /Users/seungwonan/.local/share/fnm/node-versions/v24.15.0/installation/bin/node /Users/seungwonan/Library/pnpm/global/v11/14b51-19e21509614/node_modules/pnpm/bin/pnpm.mjs install\n    at getFinalError (file:///Users/seungwonan/Library/pnpm/store/v11/links/@/pnpm/11.1.1/609303f0ed14bcc46c877b61a14f10e5fc0e12baa6026268fd68c5a6e134d86c/node_modules/pnpm/dist/pnpm.mjs:28661:14)\n    at makeError (file:///Users/seungwonan/Library/pnpm/store/v11/links/@/pnpm/11.1.1/609303f0ed14bcc46c877b61a14f10e5fc0e12baa6026268fd68c5a6e134d86c/node_modules/pnpm/dist/pnpm.mjs:30968:21)\n    at getSyncResult (file:///Users/seungwonan/Library/pnpm/store/v11/links/@/pnpm/11.1.1/609303f0ed14bcc46c877b61a14f10e5fc0e12baa6026268fd68c5a6e134d86c/node_modules/pnpm/dist/pnpm.mjs:32812:10)\n    at spawnSubprocessSync (file:///Users/seungwonan/Library/pnpm/store/v11/links/@/pnpm/11.1.1/609303f0ed14bcc46c877b61a14f10e5fc0e12baa6026268fd68c5a6e134d86c/node_modules/pnpm/dist/pnpm.mjs:32772:14)\n    at execaCoreSync (file:///Users/seungwonan/Library/pnpm/store/v11/links/@/pnpm/11.1.1/609303f0ed14bcc46c877b61a14f10e5fc0e12baa6026268fd68c5a6e134d86c/node_modules/pnpm/dist/pnpm.mjs:32702:23)\n    at callBoundExeca (file:///Users/seungwonan/Library/pnpm/store/v11/links/@/pnpm/11.1.1/609303f0ed14bcc46c877b61a14f10e5fc0e12baa6026268fd68c5a6e134d86c/node_modules/pnpm/dist/pnpm.mjs:35230:23)\n    at boundExeca (file:///Users/seungwonan/Library/pnpm/store/v11/links/@/pnpm/11.1.1/609303f0ed14bcc46c877b61a14f10e5fc0e12baa6026268fd68c5a6e134d86c/node_modules/pnpm/dist/pnpm.mjs:35207:49)\n    at sync (file:///Users/seungwonan/Library/pnpm/store/v11/links/@/pnpm/11.1.1/609303f0ed14bcc46c877b61a14f10e5fc0e12baa6026268fd68c5a6e134d86c/node_modules/pnpm/dist/pnpm.mjs:35366:10)\n    at runPnpmCli (file:///Users/seungwonan/Library/pnpm/store/v11/links/@/pnpm/11.1.1/609303f0ed14bcc46c877b61a14f10e5fc0e12baa6026268fd68c5a6e134d86c/node_modules/pnpm/dist/pnpm.mjs:211039:5)\n    at runDepsStatusCheck (file:///Users/seungwonan/Library/pnpm/store/v11/links/@/pnpm/11.1.1/609303f0ed14bcc46c877b61a14f10e5fc0e12baa6026268fd68c5a6e134d86c/node_modules/pnpm/dist/pnpm.mjs:212745:7)"
+  },
+  {
+    "time": "13:03:21",
+    "user": "seungwonan",
+    "prompt": "깃허브 커넥터로 깃허브 레포지토리 만들 수 있어?"
+  },
+  {
+    "time": "15:30:08",
+    "user": "seungwonan",
+    "prompt": "안녕"
+  },
+  {
+    "time": "15:34:32",
+    "user": "seungwonan",
+    "prompt": ".mcp.json 라는 파일이 존재하니?"
+  },
+  {
+    "time": "15:36:43",
+    "user": "seungwonan",
+    "prompt": "supabase mcp 사용해줘"
+  },
+  {
+    "time": "16:03:21",
+    "user": "seungwonan",
+    "prompt": "{\n  \"mcpServers\": {\n    \"context7\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@upstash/context7-mcp\"\n      ]\n    }\n  }\n}\n\n현재 프로젝트에 이 MCP도 추가해줘"
+  },
+  {
+    "time": "16:04:54",
+    "user": "seungwonan",
+    "prompt": "context7 mcp 사용해서 아무 거나 해봐"
+  },
+  {
+    "time": "16:12:25",
+    "user": "seungwonan",
+    "prompt": "1. Supabase 커넥터를 활용하여 내 프로젝트의 정보를 가져오고 현재 프로젝트와 Supabase를 연결하는데 필요한 정보를 `.env` 에 추가해줘\n2. Context7 커넥터를 활용하여 현재 기술 스택에 Supabase를 연결하는 모범 사례를 확인하고 현재 프로젝트에 Supabase를 연결해줘\n\n연결되었는지 확인하는 간단한 테스트 페이지 만들어줘"
+  },
+  {
+    "time": "16:17:29",
+    "user": "seungwonan",
+    "prompt": "테스트 페이지 만들어줘"
+  },
+  {
+    "time": "16:22:11",
+    "user": "seungwonan",
+    "prompt": "Supabase 연결 테스트\n❌\n연결 실패\n\nCould not find the table 'public._supabase_test_ping' in the schema cache\n\n프로젝트 URL\nhttps://rqsgpfqsrhqliheyzrus.supabase.co\n리전\nap-northeast-2 (서울)\n응답 시간\n655ms\n클라이언트\n@supabase/ssr (Server Component)"
+  },
+  {
+    "time": "16:26:30",
+    "user": "seungwonan",
+    "prompt": "메인 페이지에서 방금 너가 만든 페이지로 들어갈 수 있는 링크 추가해줘"
+  },
+  {
+    "time": "16:28:37",
+    "user": "seungwonan",
+    "prompt": "data 폴더 제거해줘"
+  },
+  {
+    "time": "16:38:12",
+    "user": "seungwonan",
+    "prompt": "@data \n\n1. Supabase 커넥터를 활용하여 이 폴더에 있는 모든 CSV에 맞는 데이터베이스 구조를 만들어줘\n2. Context7 커넥터를 활용하여 현재 기술 스택에 Supabase를 연결하는 모범 사례를 확인하고 CSV를 업로드하면 데이터베이스에 저장되도록 해줘\n3. 현재 프로젝트에 구현된 모든 기능을 데이터베이스와 연결되게 해줘"
+  },
+  {
+    "time": "16:58:16",
+    "user": "seungwonan",
+    "prompt": "데이터 업로드 했는데 대시보드에 데이터가 없어\n\nSupabase MCP로 데이터가 저장은 되어있는지 확인해줘"
+  },
+  {
+    "time": "17:17:16",
+    "user": "seungwonan",
+    "prompt": "데이터베이스 각 테이블에 저장되어있는 데이터의 개수를 확인해줘"
+  },
+  {
+    "time": "17:18:16",
+    "user": "seungwonan",
+    "prompt": "지금은 어때?"
+  },
+  {
+    "time": "17:19:12",
+    "user": "seungwonan",
+    "prompt": "현재 같은 CSV 파일을 2번 업로드하면 데이터가 중복되게 저장이 되고 있어\n데이터를 업로드할 때 중복이 되지 않게 업로드 되게 해줘"
+  },
+  {
+    "time": "17:27:51",
+    "user": "seungwonan",
+    "prompt": "현재 프로젝트에 깃 설치해줘"
+  }
+]
