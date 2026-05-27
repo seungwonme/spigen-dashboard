@@ -30,7 +30,7 @@ export default function SummaryPage() {
   if (!data || !data.roasByChannel) return (
     <div className="p-8 space-y-2">
       <p className="text-neutral-500 font-medium">아직 데이터가 없습니다.</p>
-      <p className="text-sm text-neutral-400"><a href="/upload" className="underline text-blue-500">데이터 업로드</a> 페이지에서 CSV 파일을 먼저 업로드해 주세요.</p>
+      <p className="text-sm text-neutral-400"><a href="/upload" className="underline text-yellow-500">데이터 업로드</a> 페이지에서 CSV 파일을 먼저 업로드해 주세요.</p>
     </div>
   );
 

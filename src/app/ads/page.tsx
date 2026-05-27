@@ -89,7 +89,7 @@ export default function AdsPage() {
         {tabs.map(t => (
           <button key={t.id} onClick={() => setView(t.id)}
             className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 -mb-px ${
-              view === t.id ? "border-blue-600 text-blue-600" : "border-transparent text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200"
+              view === t.id ? "border-yellow-500 text-yellow-600" : "border-transparent text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200"
             }`}>
             {t.label}
           </button>

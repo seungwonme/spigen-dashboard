@@ -11,7 +11,7 @@ export default function KpiCard({ label, value, unit, sub, highlight }: KpiCardP
   return (
     <div className={`rounded-xl border p-5 flex flex-col gap-1 ${
       highlight
-        ? "border-blue-500 bg-blue-50 dark:bg-blue-950"
+        ? "border-yellow-400 bg-yellow-50 dark:bg-yellow-950"
         : "border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900"
     }`}>
       <p className="text-xs text-neutral-500 dark:text-neutral-400 uppercase tracking-wide">{label}</p>

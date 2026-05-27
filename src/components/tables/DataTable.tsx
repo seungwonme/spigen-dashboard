@@ -52,7 +52,7 @@ export default function DataTable<T extends Record<string, unknown>>({
                 onClick={() => col.sortable !== false && handleSort(String(col.key))}
                 className={`px-3 py-2.5 text-xs font-semibold text-neutral-600 dark:text-neutral-300 uppercase tracking-wide whitespace-nowrap ${
                   col.align === "right" ? "text-right" : col.align === "center" ? "text-center" : "text-left"
-                } ${col.sortable !== false ? "cursor-pointer select-none hover:text-blue-600" : ""}`}
+                } ${col.sortable !== false ? "cursor-pointer select-none hover:text-yellow-500" : ""}`}
               >
                 {col.header}
                 {sortKey === String(col.key) && (sortDir === "asc" ? " ▲" : " ▼")}
@@ -66,7 +66,7 @@ export default function DataTable<T extends Record<string, unknown>>({
               key={i}
               onClick={() => onRowClick?.(row)}
               className={`border-b border-neutral-100 dark:border-neutral-800 transition-colors ${
-                onRowClick ? "cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-950" : "hover:bg-neutral-50 dark:hover:bg-neutral-800"
+                onRowClick ? "cursor-pointer hover:bg-yellow-50 dark:hover:bg-yellow-950" : "hover:bg-neutral-50 dark:hover:bg-neutral-800"
               }`}
             >
               {columns.map((col) => (

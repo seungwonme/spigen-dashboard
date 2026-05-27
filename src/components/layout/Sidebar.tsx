@@ -9,6 +9,7 @@ const NAV = [
   { href: "/inventory", label: "재고 관리", icon: "▣" },
   { href: "/working-capital", label: "운전자본 분석", icon: "◐" },
   { href: "/traffic", label: "트래픽 분석", icon: "◎" },
+  { href: "/sheets", label: "시트 원본", icon: "▤" },
   { href: "/upload", label: "데이터 업로드", icon: "▲" },
   { href: "/supabase-test", label: "Supabase 테스트", icon: "⚡" },
 ];
@@ -31,7 +32,7 @@ export default function Sidebar() {
               href={href}
               className={`flex items-center gap-3 px-5 py-2.5 text-sm transition-colors ${
                 active
-                  ? "bg-blue-600 text-white"
+                  ? "bg-yellow-400 text-neutral-900"
                   : "text-neutral-300 hover:bg-neutral-800 hover:text-white"
               }`}
             >

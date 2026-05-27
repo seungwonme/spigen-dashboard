@@ -182,7 +182,7 @@ export default function UploadPage() {
         onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}
         onClick={() => inputRef.current?.click()}
-        className="border-2 border-dashed border-neutral-300 dark:border-neutral-600 rounded-xl p-12 text-center cursor-pointer hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950 transition-colors"
+        className="border-2 border-dashed border-neutral-300 dark:border-neutral-600 rounded-xl p-12 text-center cursor-pointer hover:border-yellow-400 hover:bg-yellow-50 dark:hover:bg-yellow-950 transition-colors"
       >
         <input
           ref={inputRef}
@@ -193,7 +193,7 @@ export default function UploadPage() {
           onChange={(e) => { if (e.target.files?.length) uploadFiles(e.target.files); e.target.value = ""; }}
         />
         {uploading ? (
-          <p className="text-blue-500 font-medium">Supabase에 저장 중...</p>
+          <p className="text-yellow-500 font-medium">Supabase에 저장 중...</p>
         ) : (
           <>
             <p className="text-neutral-500 dark:text-neutral-400 font-medium">파일을 여기에 드래그하거나 클릭해서 선택</p>

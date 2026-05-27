@@ -28,7 +28,7 @@ const STATUS_META: Record<StockStatus, { label: string; color: string; badge: st
   deadstock: { label: "데드스톡", color: "#ef4444", badge: "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300" },
   stockout: { label: "품절", color: "#a855f7", badge: "bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-300" },
   overstock: { label: "과잉", color: "#f59e0b", badge: "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300" },
-  low: { label: "임박", color: "#3b82f6", badge: "bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300" },
+  low: { label: "임박", color: "#eab308", badge: "bg-yellow-100 text-yellow-700 dark:bg-yellow-950 dark:text-yellow-300" },
   healthy: { label: "정상", color: "#22c55e", badge: "bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-300" },
 };
 
@@ -54,7 +54,7 @@ export default function WorkingCapitalPage() {
     <div className="p-8 space-y-2">
       <p className="text-neutral-500 font-medium">아직 재고 데이터가 없습니다.</p>
       <p className="text-sm text-neutral-400">
-        <a href="/upload" className="underline text-blue-500">데이터 업로드</a> 페이지에서 재고/트래픽 CSV를 먼저 업로드해 주세요.
+        <a href="/upload" className="underline text-yellow-500">데이터 업로드</a> 페이지에서 재고/트래픽 CSV를 먼저 업로드해 주세요.
       </p>
     </div>
   );

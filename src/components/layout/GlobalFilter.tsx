@@ -41,7 +41,7 @@ export default function GlobalFilter() {
           <button
             key={label}
             onClick={() => applyPreset(days)}
-            className="px-2.5 py-1 rounded text-xs bg-neutral-100 dark:bg-neutral-800 hover:bg-blue-100 dark:hover:bg-blue-900 transition-colors"
+            className="px-2.5 py-1 rounded text-xs bg-neutral-100 dark:bg-neutral-800 hover:bg-yellow-100 dark:hover:bg-yellow-900 transition-colors"
           >
             {label}
           </button>
@@ -67,7 +67,7 @@ export default function GlobalFilter() {
             onClick={() => toggleAdType(t)}
             className={`px-2.5 py-1 rounded text-xs font-medium transition-colors ${
               adTypes.includes(t)
-                ? "bg-blue-600 text-white"
+                ? "bg-yellow-400 text-neutral-900"
                 : "bg-neutral-100 dark:bg-neutral-800 text-neutral-500"
             }`}
           >
