@@ -328,5 +328,10 @@
     "time": "16:35:27",
     "user": "seungwonan",
     "prompt": "Supabase MCP와 Context7 MCP를 활용해서 이 프로젝트에 로그인 기능을 추가해줘.\n\n1. /login 페이지에 두 가지 로그인 방식\n   - 이메일 + 비밀번호 (회원가입 / 로그인)\n   - 매직 링크 (이메일만 입력하면 로그인 링크 발송, signInWithOtp)\n2. 대시보드 우측 상단에 로그아웃 버튼\n3. 로그인 안 한 사용자는 대시보드를 볼 수 없고 자동으로 /login으로 리디렉션\n4. Context7로 Supabase Auth 이메일 로그인 모범 사례(Next.js App Router, @supabase/ssr 기준)를 참고하면서 진행해줘\n\n지금은 Google 로그인은 넣지 말고 이메일 방식만 구현해줘."
+  },
+  {
+    "time": "16:57:01",
+    "user": "seungwonan",
+    "prompt": "마이페이지도 만들어줘\n좌측 사이드바 하단에 유저의 이메일 표시하고 클릭하면 마이페이지로 넘어가게 해줘"
   }
 ]

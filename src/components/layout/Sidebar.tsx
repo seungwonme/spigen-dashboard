@@ -14,7 +14,7 @@ const NAV = [
   { href: "/supabase-test", label: "Supabase 테스트", icon: "⚡" },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ userEmail }: { userEmail?: string }) {
   const pathname = usePathname();
 
   return (
@@ -42,8 +42,27 @@ export default function Sidebar() {
           );
         })}
       </nav>
-      <div className="px-5 py-3 border-t border-neutral-700 text-xs text-neutral-500">
-        통화: EUR
+      <div className="border-t border-neutral-700">
+        <Link
+          href="/mypage"
+          className={`flex items-center gap-2.5 px-5 py-3.5 transition-colors group ${
+            pathname === "/mypage"
+              ? "bg-yellow-400 text-neutral-900"
+              : "hover:bg-neutral-800"
+          }`}
+        >
+          <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
+            pathname === "/mypage"
+              ? "bg-neutral-900 text-yellow-400"
+              : "bg-neutral-700 text-neutral-300 group-hover:bg-neutral-600"
+          }`}>
+            {userEmail ? userEmail[0].toUpperCase() : "?"}
+          </span>
+          <span className="text-xs truncate text-neutral-400 group-hover:text-neutral-200">
+            {userEmail ?? "로딩 중..."}
+          </span>
+        </Link>
+        <p className="px-5 pb-3 text-xs text-neutral-600">통화: EUR</p>
       </div>
     </aside>
   );
