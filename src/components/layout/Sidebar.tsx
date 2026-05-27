@@ -7,6 +7,7 @@ const NAV = [
   { href: "/ads", label: "광고 성과", icon: "◈" },
   { href: "/products", label: "상품 성과", icon: "◉" },
   { href: "/inventory", label: "재고 관리", icon: "▣" },
+  { href: "/working-capital", label: "운전자본 분석", icon: "◐" },
   { href: "/traffic", label: "트래픽 분석", icon: "◎" },
   { href: "/upload", label: "데이터 업로드", icon: "▲" },
   { href: "/supabase-test", label: "Supabase 테스트", icon: "⚡" },
