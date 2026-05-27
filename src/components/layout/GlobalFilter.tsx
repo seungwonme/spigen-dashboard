@@ -34,7 +34,7 @@ export default function GlobalFilter() {
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-3 px-6 py-3 bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700 text-sm">
+    <div className="flex flex-wrap items-center gap-3 px-6 py-3 text-sm">
       {/* 날짜 프리셋 */}
       <div className="flex gap-1">
         {DATE_PRESETS.map(({ label, days }) => (
