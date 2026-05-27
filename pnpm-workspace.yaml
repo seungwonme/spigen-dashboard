@@ -1,8 +1,3 @@
 allowBuilds:
   sharp: true
   unrs-resolver: true
-
-1. 슈피겐 대시보드 다운
-2. gcloud cli 다운
-3. arlo@jocodingax.ai 계정과 gcloud 연동
-4. gcloud cli 사용해서 현재 프로젝트와 연결해달라고 요청 (sheet 불러오기)
