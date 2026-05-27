@@ -5,6 +5,14 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 
+const ALLOWED_DOMAIN = "@jocodingax.ai";
+
+function checkDomain(email: string) {
+  if (!email.toLowerCase().endsWith(ALLOWED_DOMAIN)) {
+    return { error: `${ALLOWED_DOMAIN} 이메일만 가입할 수 있습니다.` };
+  }
+}
+
 export async function signInWithPassword(formData: FormData) {
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({
@@ -17,9 +25,13 @@ export async function signInWithPassword(formData: FormData) {
 }
 
 export async function signUp(formData: FormData) {
+  const email = formData.get("email") as string;
+  const domainError = checkDomain(email);
+  if (domainError) return domainError;
+
   const supabase = await createClient();
   const { error } = await supabase.auth.signUp({
-    email: formData.get("email") as string,
+    email,
     password: formData.get("password") as string,
   });
   if (error) return { error: error.message };
@@ -27,12 +39,16 @@ export async function signUp(formData: FormData) {
 }
 
 export async function signInWithOtp(formData: FormData) {
+  const email = formData.get("email") as string;
+  const domainError = checkDomain(email);
+  if (domainError) return domainError;
+
   const supabase = await createClient();
   const headersList = await headers();
   const origin = headersList.get("origin") ?? "";
 
   const { error } = await supabase.auth.signInWithOtp({
-    email: formData.get("email") as string,
+    email,
     options: {
       emailRedirectTo: `${origin}/auth/callback`,
     },
