@@ -44,3 +44,8 @@ BUSINESS_INSIGHT.md
 
 # 세션 로그 — 시크릿(키/토큰)이 섞일 수 있어 절대 커밋 금지
 /prompts/
+
+# agent skills — 로컬에 설치된 스킬, 커밋 제외
+/.claude/skills/
+/.agents/skills/
+/skills-lock.json
