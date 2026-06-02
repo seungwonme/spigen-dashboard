@@ -5,9 +5,11 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 
+type MsgResult = { error?: string; message?: string };
+
 const ALLOWED_DOMAIN = "@jocodingax.ai";
 
-function checkDomain(email: string) {
+function checkDomain(email: string): MsgResult | undefined {
   if (!email.toLowerCase().endsWith(ALLOWED_DOMAIN)) {
     return { error: `${ALLOWED_DOMAIN} 이메일만 가입할 수 있습니다.` };
   }
@@ -28,7 +30,7 @@ export async function signInWithPassword(formData: FormData) {
   redirect("/");
 }
 
-export async function signUp(formData: FormData) {
+export async function signUp(formData: FormData): Promise<MsgResult> {
   const email = formData.get("email") as string;
   const domainError = checkDomain(email);
   if (domainError) return domainError;
@@ -42,7 +44,7 @@ export async function signUp(formData: FormData) {
   return { message: "확인 이메일을 발송했습니다. 받은 편지함을 확인해 주세요." };
 }
 
-export async function signInWithOtp(formData: FormData) {
+export async function signInWithOtp(formData: FormData): Promise<MsgResult> {
   const email = formData.get("email") as string;
   const domainError = checkDomain(email);
   if (domainError) return domainError;
