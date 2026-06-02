@@ -17,7 +17,10 @@ export default function LoginPage() {
 
 function LoginForm() {
   const searchParams = useSearchParams();
-  const urlError = searchParams.get("error");
+  // URL 파라미터 에러는 고정 메시지만 허용 (피싱용 임의 메시지 주입 차단)
+  const urlError = searchParams.get("error")
+    ? "링크가 만료되었거나 유효하지 않습니다. 다시 시도해 주세요."
+    : null;
 
   const [tab, setTab] = useState<Tab>("password");
   const [email, setEmail] = useState("");

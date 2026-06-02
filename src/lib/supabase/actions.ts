@@ -14,9 +14,13 @@ function checkDomain(email: string) {
 }
 
 export async function signInWithPassword(formData: FormData) {
+  const email = formData.get("email") as string;
+  const domainError = checkDomain(email);
+  if (domainError) return domainError;
+
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({
-    email: formData.get("email") as string,
+    email,
     password: formData.get("password") as string,
   });
   if (error) return { error: error.message };
@@ -62,7 +66,10 @@ export async function changePassword(formData: FormData) {
   const newPassword = formData.get("password") as string;
   const confirm = formData.get("confirm") as string;
   if (newPassword !== confirm) return { error: "비밀번호가 일치하지 않습니다." };
-  if (newPassword.length < 6) return { error: "비밀번호는 6자 이상이어야 합니다." };
+  if (newPassword.length < 8) return { error: "비밀번호는 8자 이상이어야 합니다." };
+  if (!/[A-Za-z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
+    return { error: "비밀번호는 영문자와 숫자를 모두 포함해야 합니다." };
+  }
   const { error } = await supabase.auth.updateUser({ password: newPassword });
   if (error) return { error: error.message };
   return { message: "비밀번호가 변경되었습니다." };
