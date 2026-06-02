@@ -41,3 +41,6 @@ yarn-error.log*
 next-env.d.ts
 
 BUSINESS_INSIGHT.md
+
+# 세션 로그 — 시크릿(키/토큰)이 섞일 수 있어 절대 커밋 금지
+/prompts/
