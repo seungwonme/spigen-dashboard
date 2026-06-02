@@ -114,10 +114,11 @@ function LoginForm() {
             {tab === "password" && (
               <form onSubmit={handlePasswordLogin} className="space-y-3">
                 <div>
-                  <label className="block text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">
+                  <label htmlFor="login-email" className="block text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">
                     이메일
                   </label>
                   <input
+                    id="login-email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -128,10 +129,11 @@ function LoginForm() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">
+                  <label htmlFor="login-password" className="block text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">
                     비밀번호
                   </label>
                   <input
+                    id="login-password"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -166,10 +168,11 @@ function LoginForm() {
                   이메일을 입력하면 로그인 링크를 발송합니다. 비밀번호가 필요하지 않습니다.
                 </p>
                 <div>
-                  <label className="block text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">
+                  <label htmlFor="magic-email" className="block text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">
                     이메일
                   </label>
                   <input
+                    id="magic-email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}

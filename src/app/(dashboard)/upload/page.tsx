@@ -1,7 +1,5 @@
 "use client";
 import { useState, useRef } from "react";
-import Papa from "papaparse";
-import * as XLSX from "xlsx";
 import { detectFileType, FileType } from "@/lib/parsers/detect-type";
 import { parseSpRow } from "@/lib/parsers/sp-campaigns";
 import { parseSbRow } from "@/lib/parsers/sb-campaigns";
@@ -35,11 +33,14 @@ const TYPE_LABELS: Record<string, string> = {
 async function parseFile(file: File): Promise<Record<string, unknown>[]> {
   const isXlsx = file.name.endsWith(".xlsx") || file.name.endsWith(".xls");
   if (isXlsx) {
+    // 무거운 라이브러리(~1MB)는 xlsx 업로드 시점에만 동적 로드 → 첫 진입 번들에서 제외
+    const XLSX = await import("xlsx");
     const buffer = await file.arrayBuffer();
     const wb = XLSX.read(buffer, { type: "array" });
     const ws = wb.Sheets[wb.SheetNames[0]];
     return XLSX.utils.sheet_to_json(ws, { defval: "" });
   }
+  const { default: Papa } = await import("papaparse");
   const text = await file.text();
   const result = Papa.parse<Record<string, unknown>>(text, { header: true, skipEmptyLines: true });
   return result.data;

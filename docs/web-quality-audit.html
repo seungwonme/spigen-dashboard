@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spigen 대시보드 — 웹 품질 종합 진단</title>
+<style>
+  :root {
+    --bg: #f7f7f8; --card: #ffffff; --text: #18181b; --muted: #71717a;
+    --border: #e4e4e7; --code-bg: #f4f4f5;
+    --crit: #dc2626; --high: #ea580c; --med: #ca8a04; --low: #64748b; --ok: #16a34a;
+    --accent: #2563eb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0a0a0a; --card: #161618; --text: #ededed; --muted: #a1a1aa;
+      --border: #27272a; --code-bg: #1e1e21;
+      --crit: #f87171; --high: #fb923c; --med: #facc15; --low: #94a3b8; --ok: #4ade80;
+      --accent: #60a5fa;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Pretendard", Roboto, sans-serif;
+    line-height: 1.6; font-size: 15px;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 40px 24px 80px; }
+  header h1 { font-size: 26px; margin: 0 0 6px; letter-spacing: -0.02em; }
+  header .sub { color: var(--muted); font-size: 14px; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 14px; font-size: 13px; color: var(--muted); }
+  .meta-row b { color: var(--text); font-weight: 600; }
+
+  .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 28px 0; }
+  .stat { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; text-align: center; }
+  .stat .n { font-size: 30px; font-weight: 700; line-height: 1; }
+  .stat .l { font-size: 12px; color: var(--muted); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .stat.c .n { color: var(--crit); } .stat.h .n { color: var(--high); }
+  .stat.m .n { color: var(--med); } .stat.l-stat .n { color: var(--low); }
+
+  .callout { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 10px; padding: 16px 20px; margin: 22px 0; }
+  .callout h3 { margin: 0 0 8px; font-size: 15px; }
+  .callout p { margin: 6px 0; font-size: 14px; }
+
+  h2.section { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 38px 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+
+  .finding { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin-bottom: 14px; }
+  .finding .top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+  .sev { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.03em; color: #fff; }
+  .sev.crit { background: var(--crit); } .sev.high { background: var(--high); }
+  .sev.med { background: var(--med); color: #1c1917; } .sev.low { background: var(--low); }
+  .tag { font-size: 11px; padding: 3px 9px; border-radius: 6px; background: var(--code-bg); color: var(--muted); border: 1px solid var(--border); }
+  .finding .title { font-weight: 650; font-size: 16px; flex: 1 1 100%; margin-top: 2px; }
+  .finding .body { font-size: 14px; }
+  .finding .loc { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px; color: var(--accent); background: var(--code-bg); padding: 2px 7px; border-radius: 5px; display: inline-block; margin: 2px 0; }
+  .finding p { margin: 8px 0; }
+  .finding .label { font-weight: 600; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.03em; }
+  pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; overflow-x: auto; font-size: 12.5px; font-family: ui-monospace, "SF Mono", Menlo, monospace; line-height: 1.5; margin: 8px 0; }
+  .measured { display: inline-block; background: rgba(220,38,38,0.1); color: var(--crit); font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 5px; }
+
+  .plan { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 8px 20px; }
+  .plan ol { margin: 14px 0; padding-left: 22px; }
+  .plan li { margin: 10px 0; font-size: 14px; }
+  .plan .eff { font-size: 12px; color: var(--muted); }
+
+  table.cov { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 6px; }
+  table.cov th, table.cov td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  table.cov th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; }
+  table.cov .dot { color: var(--ok); font-weight: 700; }
+  footer { margin-top: 40px; color: var(--muted); font-size: 12px; text-align: center; }
+  .na { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>웹 품질 종합 진단 — Spigen DE 광고 대시보드</h1>
+  <div class="sub">Vercel · addyosmani/web-quality-skills 8개 스킬 체크리스트를 코드베이스에 전수 적용</div>
+  <div class="meta-row">
+    <span><b>스택</b> Next.js 16.2.6 · React 19 · Supabase · Tailwind v4</span>
+    <span><b>진단일</b> 2026-06-02</span>
+    <span><b>방식</b> 정적 코드 분석 (dev 서버 deny-list → 라이브 Lighthouse 미실행)</span>
+  </div>
+</header>
+
+<div class="summary">
+  <div class="stat c"><div class="n">1</div><div class="l">Critical</div></div>
+  <div class="stat h"><div class="n">3</div><div class="l">High</div></div>
+  <div class="stat m"><div class="n">4</div><div class="l">Medium</div></div>
+  <div class="stat l-stat"><div class="n">3</div><div class="l">Low</div></div>
+</div>
+
+<div class="callout">
+  <h3>먼저 — 이 앱의 성격이 우선순위를 결정합니다</h3>
+  <p>이 프로젝트는 <b>로그인 뒤 내부 광고 대시보드</b>입니다. 검색엔진·AI 크롤러가 인증 벽 안쪽을 못 봅니다. 그래서:</p>
+  <p>• <b>SEO/GEO</b> — 최적화 대상이 아니라 <b>노출 차단</b> 대상. 진단 결과 대부분 N/A, 핵심은 "내부 데이터가 검색/AI에 새지 않게 막혔는가" 하나뿐.</p>
+  <p>• <b>성능</b> — 진짜 레버리지. RSC 미활용 + 번들 비대가 핵심.</p>
+  <p>• <b>보안 헤더</b> — 이미 상당히 잘 갖춰짐(CSP·X-Frame·Referrer·Permissions). 소수 보강만 필요.</p>
+</div>
+
+<h2 class="section">Critical — 즉시 수정</h2>
+
+<div class="finding">
+  <div class="top"><span class="sev crit">Critical</span><span class="tag">접근성 · WCAG 3.3.2</span>
+    <div class="title">폼 label이 input과 프로그래밍적으로 연결되지 않음</div></div>
+  <div class="body">
+    <p><span class="loc">src/app/login/page.tsx:117,131,169</span> <span class="loc">.../mypage/ChangePasswordForm.tsx:44,55</span></p>
+    <p><span class="label">문제</span> <code>&lt;label&gt;</code>이 시각적으로만 존재하고 <code>htmlFor</code>+<code>id</code> 연결이 없습니다. 스크린리더가 입력 필드의 이름(비밀번호·이메일 등)을 읽지 못합니다. accessibility 스킬이 "즉시 수정" 1순위로 지정한 항목입니다.</p>
+    <p><span class="label">수정</span></p>
+    <pre>&lt;label htmlFor="new-password"&gt;새 비밀번호&lt;/label&gt;
+&lt;input id="new-password" type="password" autoComplete="new-password" /&gt;</pre>
+    <p>또는 input을 label로 감싸는 암시적 연결도 가능합니다. 로그인 폼은 보안 모범사례상 <code>autoComplete</code> 속성(<code>current-password</code>/<code>email</code>)도 함께 권장됩니다.</p>
+  </div>
+</div>
+
+<h2 class="section">High — 출시 전 수정</h2>
+
+<div class="finding">
+  <div class="top"><span class="sev high">High</span><span class="tag">성능 · 번들</span>
+    <div class="title">xlsx(SheetJS)가 클라이언트 번들에 통째로 포함</div></div>
+  <div class="body">
+    <p><span class="loc">src/app/(dashboard)/upload/page.tsx:4</span> — <code>import * as XLSX from "xlsx"</code> (이 파일은 <code>"use client"</code>)</p>
+    <p><span class="label">실측</span> <span class="measured">클라이언트 청크 0se0_xlsx_xlsx_mjs… = 1,080 KB (dev·비압축)</span> 프로덕션 gzip 기준으로도 ~300–400KB로, upload 페이지 진입 시 그대로 다운로드됩니다.</p>
+    <p><span class="label">수정</span> 동적 import로 분리해 첫 진입 번들에서 제거. 더 나아가 파싱 자체를 서버(route handler/server action)로 옮기면 클라이언트에서 완전히 사라집니다.</p>
+    <pre>// 클릭/업로드 시점에만 로드
+const XLSX = await import("xlsx");
+// papaparse도 동일 패턴 적용 가능</pre>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="top"><span class="sev high">High</span><span class="tag">성능 · LCP · 아키텍처</span>
+    <div class="title">서버 컴포넌트(RSC) 미활용 — 전 페이지가 클라이언트 패칭</div></div>
+  <div class="body">
+    <p><span class="loc">19개 페이지 중 15개 "use client"</span> — 모든 대시보드 페이지가 <code>useEffect → getSummary()/fetch</code> 패턴.</p>
+    <p><span class="label">문제</span> 브라우저가 JS를 다 받아 실행한 뒤에야 데이터 요청이 시작됩니다. core-web-vitals 스킬의 LCP 악화 사례 #4 "Client-side rendering delays"에 정확히 해당. 페이지마다 빈 화면 → "로딩 중..." → 콘텐츠 순서.</p>
+    <p><span class="label">수정</span> 데이터 페칭을 서버 컴포넌트로 내리고, 상호작용이 필요한 차트/필터만 <code>"use client"</code>로 분리. <code>vercel-composition-patterns</code> 스킬의 "server-fetch, client-island" 패턴.</p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="top"><span class="sev high">High</span><span class="tag">보안 · SEO(역방향)</span>
+    <div class="title">robots.txt / noindex 부재 — 내부 데이터 노출 위험</div></div>
+  <div class="body">
+    <p><span class="loc">src/app/robots.ts (없음)</span> <span class="loc">sitemap.ts (없음)</span></p>
+    <p><span class="label">문제</span> 내부 매출·광고·재고 대시보드인데 크롤러 차단 정책이 명시돼 있지 않습니다. 인증 미들웨어가 1차 방어를 하지만, 로그인 페이지 메타데이터·URL 구조가 검색/AI에 노출될 수 있습니다.</p>
+    <p><span class="label">수정</span> (일반 SEO와 반대 방향) 전역 noindex + AI 크롤러 차단:</p>
+    <pre>// src/app/robots.ts
+export default function robots() {
+  return {
+    rules: [{ userAgent: "*", disallow: "/" }],
+    // GPTBot, ClaudeBot, PerplexityBot 등도 차단 의도
+  };
+}
+// + layout metadata에 robots: { index: false, follow: false }</pre>
+  </div>
+</div>
+
+<h2 class="section">Medium — 스프린트 내 수정</h2>
+
+<div class="finding">
+  <div class="top"><span class="sev med">Medium</span><span class="tag">성능 · 스트리밍</span>
+    <div class="title">loading.tsx / Suspense 미활용 — App Router 스트리밍 없음</div></div>
+  <div class="body">
+    <p><span class="loc">src/app/(dashboard)/ 하위 loading.tsx·error.tsx 없음</span></p>
+    <p>각 페이지가 자체 <code>"로딩 중..."</code> 문자열로 처리. RSC 전환과 함께 <code>loading.tsx</code> + <code>&lt;Suspense&gt;</code>로 셸을 먼저 그리고 데이터를 스트리밍하면 체감 속도가 개선됩니다. <code>error.tsx</code> 에러 바운더리도 부재.</p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="top"><span class="sev med">Medium</span><span class="tag">보안 · 헤더</span>
+    <div class="title">HSTS(Strict-Transport-Security) 헤더 누락</div></div>
+  <div class="body">
+    <p><span class="loc">next.config.ts — securityHeaders 배열</span></p>
+    <p>X-Frame-Options·CSP 등은 잘 설정돼 있으나 HSTS가 빠졌습니다. best-practices·seo 스킬 모두 권장.</p>
+    <pre>{ key: "Strict-Transport-Security",
+  value: "max-age=31536000; includeSubDomains; preload" }</pre>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="top"><span class="sev med">Medium</span><span class="tag">보안 · CSP</span>
+    <div class="title">CSP에 unsafe-inline/unsafe-eval, base-uri·form-action 부재</div></div>
+  <div class="body">
+    <p><span class="loc">next.config.ts — script-src 'self' 'unsafe-inline' 'unsafe-eval'</span></p>
+    <p>주석대로 Next.js 호환을 위한 것이나, XSS 방어가 약화됩니다. nonce 기반 CSP로 강화 가능(복잡도 있음). 또한 best-practices 권장 항목인 <code>base-uri 'self'</code>, <code>form-action 'self'</code>가 빠져 있어 이 둘은 부작용 없이 바로 추가 가능합니다.</p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="top"><span class="sev med">Medium</span><span class="tag">접근성</span>
+    <div class="title">차트 텍스트 대안 없음 · 아이콘 버튼 일부 라벨 누락</div></div>
+  <div class="body">
+    <p><span class="loc">recharts 4개 페이지</span> <span class="loc">.../products/page.tsx:73 (✕ 버튼)</span></p>
+    <p>recharts 그래프는 스크린리더가 데이터를 읽지 못합니다 — 핵심 수치를 인접 테이블이나 <code>aria-label</code>/요약 텍스트로 보완 권장. 상품 상세 닫기 <code>✕</code> 버튼에 <code>aria-label="닫기"</code> 필요. (메인 메뉴 버튼은 이미 라벨 있음 — 양호)</p>
+  </div>
+</div>
+
+<h2 class="section">Low — 여유 시 정리</h2>
+
+<div class="finding">
+  <div class="top"><span class="sev low">Low</span><span class="tag">성능 · 폰트</span>
+    <div class="title">Geist 폰트 정의했으나 본문에서 미적용</div></div>
+  <div class="body">
+    <p><span class="loc">layout.tsx (Geist 변수 주입)</span> ↔ <span class="loc">globals.css — body { font-family: Arial, Helvetica }</span></p>
+    <p>next/font로 Geist를 로드·변수화했지만 body가 <code>Arial</code>로 덮어써, Geist가 실제 본문에 적용되지 않습니다. 또 <code>subsets: ["latin"]</code>만 지정돼 <code>lang="ko"</code> 한글은 시스템 폰트로 렌더됩니다. 의도면 Geist 로드를 제거(불필요한 폰트 요청 절약), 사용하려면 body font-family를 <code>var(--font-geist-sans)</code>로 정리.</p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="top"><span class="sev low">Low</span><span class="tag">SEO</span>
+    <div class="title">페이지별 metadata 부재 (내부툴이라 영향 미미)</div></div>
+  <div class="body">
+    <p><span class="loc">layout.tsx에 전역 metadata만</span></p>
+    <p>일반 사이트면 페이지별 title·description이 필요하지만, 인증 뒤 대시보드라 SEO 가치는 사실상 없습니다. 브라우저 탭 구분 목적이면 각 페이지 <code>export const metadata</code>로 title만 다르게 주는 정도로 충분.</p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="top"><span class="sev low">Low</span><span class="tag">접근성 · 대비</span>
+    <div class="title">저채도 텍스트(neutral-400/500) 색 대비 점검 필요</div></div>
+  <div class="body">
+    <p>라벨·보조 텍스트에 <code>text-neutral-400/500</code> 사용. 배경 대비 4.5:1(WCAG AA) 미달 구간이 있을 수 있습니다 — 라이브 환경에서 axe/Lighthouse로 실측 권장. (정적 분석으로는 확정 불가)</p>
+  </div>
+</div>
+
+<h2 class="section">GEO (생성형 엔진 최적화) — 적용 대상 없음</h2>
+<div class="callout" style="border-left-color: var(--low);">
+  <p class="na"><b>결론: N/A.</b> seo-geo·ai-seo 스킬의 핵심 전제는 "공개된 텍스트 콘텐츠가 AI에 인용되게 한다"입니다. 이 앱은 인증 뒤 대시보드라 AI 크롤러가 접근할 콘텐츠가 없습니다. FAQPage 스키마·llms.txt·answer-first 구조 등 모든 GEO 기법이 적용 지점을 갖지 못합니다.</p>
+  <p class="na">유일한 액션은 위 High 항목의 <b>robots.txt로 AI 크롤러(GPTBot·ClaudeBot·PerplexityBot) 명시 차단</b> — 내부 데이터의 AI 학습·인용 방지. GEO와 정반대 방향입니다.</p>
+  <p class="na">→ 외부 공개 마케팅/랜딩 페이지를 신설하면, 그때 이 두 스킬이 실제 가치를 갖습니다.</p>
+</div>
+
+<h2 class="section">권장 실행 순서</h2>
+<div class="plan">
+  <ol>
+    <li><b>폼 label 연결</b> + autoComplete 추가 <span class="eff">— 접근성 Critical, ~15분</span></li>
+    <li><b>robots.ts + noindex</b>로 내부 데이터 노출 차단 <span class="eff">— 보안, ~10분</span></li>
+    <li><b>xlsx·papaparse 동적 import</b> (또는 서버 파싱) <span class="eff">— 번들 -300KB대, 효과 큼, ~30분</span></li>
+    <li><b>HSTS + base-uri/form-action</b> CSP 보강 <span class="eff">— 보안, ~10분</span></li>
+    <li><b>RSC 전환</b> — 데이터 페칭 서버화 + loading.tsx 스트리밍 <span class="eff">— 구조적, 페이지별 점진 적용</span></li>
+    <li><b>차트 a11y · ✕ 버튼 라벨 · 폰트 정리</b> <span class="eff">— 마무리</span></li>
+  </ol>
+</div>
+
+<h2 class="section">스킬 커버리지 (8개 전수 적용)</h2>
+<table class="cov">
+  <tr><th>스킬</th><th>적용 결과</th></tr>
+  <tr><td>performance</td><td><span class="dot">✓</span> 번들(xlsx 1MB)·코드스플리팅·캐싱 점검 → High 2건</td></tr>
+  <tr><td>core-web-vitals</td><td><span class="dot">✓</span> LCP(클라이언트 패칭)·CLS·스트리밍 → High 1·Medium 1</td></tr>
+  <tr><td>accessibility</td><td><span class="dot">✓</span> 폼 label·차트 대안·아이콘 라벨·대비 → Critical 1·Medium 1·Low 1</td></tr>
+  <tr><td>seo</td><td><span class="dot">✓</span> robots·sitemap·metadata → High 1·Low 1 (내부툴 맥락 반영)</td></tr>
+  <tr><td>best-practices</td><td><span class="dot">✓</span> CSP·HSTS·헤더 → Medium 2 (기존 헤더는 우수 평가)</td></tr>
+  <tr><td>web-quality-audit</td><td><span class="dot">✓</span> 상위 프레임워크 — 심각도 분류·우선순위·이 리포트 형식</td></tr>
+  <tr><td>seo-geo</td><td><span class="dot">✓</span> GEO 적용성 평가 → N/A (인증 뒤 대시보드)</td></tr>
+  <tr><td>ai-seo</td><td><span class="dot">✓</span> AI 인용 가능성 평가 → N/A (공개 콘텐츠 없음)</td></tr>
+</table>
+
+<footer>
+  정적 코드 분석 기반. 색 대비·실제 LCP/INP/CLS 수치는 dev 서버 기동 후 axe/Lighthouse로 실측 필요.<br>
+  생성: web-quality 8-skill audit · 2026-06-02
+</footer>
+
+</div>
+</body>
+</html>

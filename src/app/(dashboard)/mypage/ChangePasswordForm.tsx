@@ -41,23 +41,27 @@ export default function ChangePasswordForm() {
         </div>
       )}
       <div>
-        <label className="block text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">새 비밀번호</label>
+        <label htmlFor="new-password" className="block text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">새 비밀번호</label>
         <input
+          id="new-password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          autoComplete="new-password"
           placeholder="6자 이상"
           className="w-full rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 px-3 py-2 text-sm text-neutral-900 dark:text-neutral-100 outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 dark:focus:ring-yellow-900 transition"
         />
       </div>
       <div>
-        <label className="block text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">비밀번호 확인</label>
+        <label htmlFor="confirm-password" className="block text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">비밀번호 확인</label>
         <input
+          id="confirm-password"
           type="password"
           value={confirm}
           onChange={(e) => setConfirm(e.target.value)}
           required
+          autoComplete="new-password"
           placeholder="비밀번호 재입력"
           className="w-full rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 px-3 py-2 text-sm text-neutral-900 dark:text-neutral-100 outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 dark:focus:ring-yellow-900 transition"
         />

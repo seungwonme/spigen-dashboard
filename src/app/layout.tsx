@@ -15,6 +15,8 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Spigen DE 광고 대시보드",
   description: "Spigen 독일 법인 통합 광고·판매·재고 대시보드",
+  // 내부 대시보드 — 검색/AI 인덱싱 차단 (robots.ts와 이중 방어)
+  robots: { index: false, follow: false },
 };
 
 export default function RootLayout({

@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 
 const securityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "on" },
+  // HTTPS 강제 (배포 환경) — 1년, 서브도메인 포함
+  { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains; preload" },
   { key: "X-Frame-Options", value: "SAMEORIGIN" },
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
@@ -16,6 +18,8 @@ const securityHeaders = [
       "font-src 'self'",
       "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
       "frame-ancestors 'none'",
+      "base-uri 'self'", // <base> 태그 주입 차단
+      "form-action 'self'", // 폼 전송 대상을 자기 출처로 제한
     ].join("; "),
   },
 ];
