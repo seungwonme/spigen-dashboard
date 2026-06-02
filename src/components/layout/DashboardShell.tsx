@@ -31,9 +31,9 @@ export default function DashboardShell({
         />
       )}
 
-      {/* 사이드바: 모바일=fixed 드로어, 데스크톱=relative 고정 */}
+      {/* 사이드바: 모바일=fixed 드로어, 데스크톱=sticky */}
       <div
-        className={`fixed inset-y-0 left-0 z-30 transition-transform duration-200 md:static md:z-auto md:translate-x-0 md:block ${
+        className={`fixed inset-y-0 left-0 z-30 transition-transform duration-200 md:sticky md:top-0 md:h-screen md:overflow-y-auto md:z-auto md:translate-x-0 md:block ${
           open ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         }`}
       >
@@ -43,7 +43,7 @@ export default function DashboardShell({
       {/* 메인 영역 */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* 상단 바 */}
-        <div className="flex items-center bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700">
+        <div className="sticky top-0 z-10 flex items-center bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700">
           {/* 햄버거 버튼 (모바일 전용) */}
           <button
             className="md:hidden flex items-center justify-center w-11 h-11 shrink-0 text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition-colors"
