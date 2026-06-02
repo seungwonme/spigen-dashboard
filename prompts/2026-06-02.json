@@ -13,5 +13,10 @@
     "time": "12:12:35",
     "user": "seungwonan",
     "prompt": "gcloud 관련 설정 전부 제거해줄 수 있어?\n\n그리고 커밋 좀"
+  },
+  {
+    "time": "12:14:07",
+    "user": "seungwonan",
+    "prompt": ".env도 ?\n그리고 시트에 동기화하는 부분 없어?"
   }
 ]
