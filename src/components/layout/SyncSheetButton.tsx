@@ -1,14 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { detectFileType } from "@/lib/parsers/detect-type";
-import { ingest } from "@/lib/parsers/ingest";
-import { dbClearAll } from "@/lib/supabase/db";
-
-interface SheetTab {
-  tab: string;
-  rows: Record<string, string>[];
-}
 
 export default function SyncSheetButton() {
   const [syncing, setSyncing] = useState(false);
@@ -22,34 +14,16 @@ export default function SyncSheetButton() {
     setError(null);
 
     try {
-      // 1. 시트의 모든 탭을 라이브로 읽는다 (서버가 서비스 계정으로 접근).
-      const res = await fetch("/api/sheets", { cache: "no-store" });
+      // 서버가 시트를 읽고 service_role로 Supabase를 갱신한다.
+      const res = await fetch("/api/sync", { method: "POST", cache: "no-store" });
       const json = await res.json();
-      if (!res.ok) throw new Error(json.error ?? "시트 읽기 실패");
-      const tabs: SheetTab[] = json.tabs ?? [];
+      if (!res.ok) throw new Error(json.error ?? "동기화 실패");
 
-      // 2. 시트를 단일 소스로 삼아 기존 데이터를 비우고 다시 채운다.
-      await dbClearAll();
-
-      // 3. 탭마다 유형 감지 → 기존 parser/upsert 재사용.
-      let inserted = 0;
-      const failed: string[] = [];
-      for (const { tab, rows } of tabs) {
-        if (rows.length === 0) continue;
-        const type = detectFileType(Object.keys(rows[0]));
-        if (!type) {
-          failed.push(`${tab}(유형 감지 실패)`);
-          continue;
-        }
-        const r = await ingest(type, rows);
-        if (r.error) failed.push(`${tab}(${r.error})`);
-        else inserted += r.inserted;
-      }
-
+      const failed: string[] = json.failed ?? [];
       if (failed.length > 0) setError(`일부 탭 실패: ${failed.join(", ")}`);
-      setMsg(`${inserted.toLocaleString()}건 동기화 완료`);
+      setMsg(`${(json.inserted ?? 0).toLocaleString()}건 동기화 완료`);
 
-      // 4. 쿼리들이 새 데이터를 읽도록 새로고침.
+      // 쿼리들이 새 데이터를 읽도록 새로고침.
       setTimeout(() => window.location.reload(), 600);
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));

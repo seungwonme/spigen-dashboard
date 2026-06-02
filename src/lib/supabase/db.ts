@@ -1,3 +1,4 @@
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
 
 const CHUNK = 500;
@@ -17,13 +18,16 @@ const CONFIG: Record<string, ConflictConfig> = {
   orders:       { table: "orders",       onConflict: "order_id" },
 };
 
+// client 미지정 시 브라우저 anon 클라이언트(업로드 페이지 등). 서버 동기화는
+// service_role admin 클라이언트를 주입해 RLS를 우회한다.
 export async function dbUpsert(
   name: keyof typeof CONFIG,
   rows: Record<string, unknown>[],
+  client?: SupabaseClient,
 ): Promise<{ inserted: number; error?: string }> {
   if (rows.length === 0) return { inserted: 0 };
   const cfg = CONFIG[name];
-  const supabase = createClient();
+  const supabase = client ?? createClient();
 
   let total = 0;
   for (let i = 0; i < rows.length; i += CHUNK) {
@@ -40,8 +44,8 @@ export async function dbUpsert(
   return { inserted: total };
 }
 
-export async function dbClearAll(): Promise<void> {
-  const supabase = createClient();
+export async function dbClearAll(client?: SupabaseClient): Promise<void> {
+  const supabase = client ?? createClient();
   const tables = ["ad_campaigns", "attribution", "orders", "listing", "inventory", "traffic"];
   await Promise.all(tables.map((t) => supabase.from(t).delete().neq("id", 0)));
 }
