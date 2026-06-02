@@ -1,8 +1,6 @@
 "use client";
 import { useState, useRef } from "react";
-import { detectFileType } from "@/lib/parsers/detect-type";
-import { ingest, TYPE_LABELS } from "@/lib/parsers/ingest";
-import { dbClearAll } from "@/lib/supabase/db";
+import { TYPE_LABELS } from "@/lib/parsers/ingest";
 
 interface UploadResult {
   type?: string;
@@ -44,20 +42,18 @@ export default function UploadPage() {
           newResults.push({ error: "파일이 비어 있습니다.", inserted: 0, skipped: 0, total: 0, type: file.name });
           continue;
         }
-        const headers = Object.keys(rows[0] as object);
-        const type = detectFileType(headers);
-        if (!type) {
-          newResults.push({
-            error: `파일 유형 감지 실패. 컬럼: ${headers.slice(0, 5).join(", ")}`,
-            inserted: 0, skipped: 0, total: rows.length, type: file.name,
-          });
-          continue;
-        }
-        const { inserted, skipped, error } = await ingest(type, rows);
-        if (error) {
-          newResults.push({ error: `저장 실패: ${error}`, inserted: 0, skipped: 0, total: rows.length, type: file.name });
+        // 파싱은 무거운 라이브러리 때문에 브라우저에서, 적재는 서버(service_role)에서.
+        // RLS상 authenticated 역할은 읽기만 가능하므로 쓰기는 /api/upload 를 거친다.
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ rows }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          newResults.push({ error: data.error ?? "저장 실패", inserted: 0, skipped: 0, total: rows.length, type: file.name });
         } else {
-          newResults.push({ type, inserted, skipped, total: rows.length });
+          newResults.push({ type: data.type, inserted: data.inserted, skipped: data.skipped, total: data.total });
         }
       } catch (e) {
         const msg = e instanceof Error ? e.message : String(e);
@@ -76,7 +72,7 @@ export default function UploadPage() {
 
   async function handleClearAll() {
     if (!confirm("Supabase에 저장된 모든 데이터를 삭제할까요?")) return;
-    await dbClearAll();
+    await fetch("/api/upload", { method: "DELETE" });
     setResults([]);
   }
 

@@ -42,20 +42,28 @@ function getOAuth2Client() {
   return oauth2;
 }
 
+// 헤더 인젝션(CRLF) 방지: 헤더 값에서 줄바꿈 문자를 제거한다.
+// 사용자 입력이 to/cc/from/subject 등으로 들어오므로 임의 헤더(Bcc 등) 주입을 차단한다.
+function stripCrlf(value: string): string {
+  return value.replace(/[\r\n]+/g, " ").trim();
+}
+
 function joinAddrs(v?: string | string[]): string | undefined {
   if (!v) return undefined;
-  return Array.isArray(v) ? v.join(", ") : v;
+  const arr = Array.isArray(v) ? v : [v];
+  return arr.map(stripCrlf).filter(Boolean).join(", ") || undefined;
 }
 
 /** 비ASCII 헤더(제목 등)를 RFC 2047 형식으로 인코딩 */
 function encodeHeaderWord(value: string): string {
+  const safe = stripCrlf(value);
   // ASCII 만 있으면 그대로 둔다.
-  if (/^[\x00-\x7F]*$/.test(value)) return value;
-  return `=?UTF-8?B?${Buffer.from(value, "utf8").toString("base64")}?=`;
+  if (/^[\x00-\x7F]*$/.test(safe)) return safe;
+  return `=?UTF-8?B?${Buffer.from(safe, "utf8").toString("base64")}?=`;
 }
 
 function buildRawMessage(p: SendEmailParams): string {
-  const from = p.from ?? process.env.GMAIL_SENDER;
+  const from = stripCrlf(p.from ?? process.env.GMAIL_SENDER ?? "");
   if (!from) {
     throw new Error("발신 주소가 없습니다. from 인자 또는 GMAIL_SENDER 를 설정하세요.");
   }
@@ -65,6 +73,7 @@ function buildRawMessage(p: SendEmailParams): string {
 
   const cc = joinAddrs(p.cc);
   const bcc = joinAddrs(p.bcc);
+  const replyTo = p.replyTo ? stripCrlf(p.replyTo) : undefined;
   const isHtml = typeof p.html === "string" && p.html.length > 0;
   const body = isHtml ? p.html! : (p.text ?? "");
 
@@ -73,7 +82,7 @@ function buildRawMessage(p: SendEmailParams): string {
     `To: ${to}`,
     cc ? `Cc: ${cc}` : null,
     bcc ? `Bcc: ${bcc}` : null,
-    p.replyTo ? `Reply-To: ${p.replyTo}` : null,
+    replyTo ? `Reply-To: ${replyTo}` : null,
     `Subject: ${encodeHeaderWord(p.subject)}`,
     "MIME-Version: 1.0",
     `Content-Type: ${isHtml ? "text/html" : "text/plain"}; charset=UTF-8`,
