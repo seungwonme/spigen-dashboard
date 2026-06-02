@@ -68,7 +68,12 @@ export async function ingest(
     return { inserted, skipped, error };
   }
   if (type === "listing") {
-    const rows = rawRows.map((r) => parseListingRow(r)).filter((r): r is NonNullable<typeof r> => !!r);
+    const parsed = rawRows.map((r) => parseListingRow(r)).filter((r): r is NonNullable<typeof r> => !!r);
+    // 리스팅 리포트는 SKU 단위라 같은 asin이 여러 행으로 온다. 테이블은 asin이 unique이고
+    // 대시보드가 asin당 단일 행을 가정(.single())하므로 asin당 1행으로 dedupe(마지막 값 우선).
+    const byAsin = new Map<string, (typeof parsed)[number]>();
+    for (const r of parsed) byAsin.set(r.asin, r);
+    const rows = Array.from(byAsin.values());
     const skipped = rawRows.length - rows.length;
     const { inserted, error } = await dbUpsert("listing", rows as unknown as Record<string, unknown>[], client);
     return { inserted, skipped, error };

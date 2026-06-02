@@ -11,11 +11,13 @@ type ConflictConfig = {
 
 const CONFIG: Record<string, ConflictConfig> = {
   ad_campaigns: { table: "ad_campaigns", onConflict: "date,type,campaign_id" },
-  attribution:  { table: "attribution",  onConflict: "date,campaign_id,product_asin,publisher" },
+  // attribution/orders는 소스(시트)에서 충돌 키가 unique하지 않다(같은 키가 여러 행).
+  // upsert는 배치 내 중복 키에서 에러나므로, 전체 삭제 후 재적재 모델에선 append-only insert로 적재한다.
+  attribution:  { table: "attribution",  appendOnly: true },
   listing:      { table: "listing",      onConflict: "asin" },
   inventory:    { table: "inventory",    onConflict: "report_date,sku" },
   traffic:      { table: "traffic",      onConflict: "report_date,child_asin" },
-  orders:       { table: "orders",       onConflict: "order_id" },
+  orders:       { table: "orders",       appendOnly: true },
 };
 
 // client 미지정 시 브라우저 anon 클라이언트(업로드 페이지 등). 서버 동기화는
