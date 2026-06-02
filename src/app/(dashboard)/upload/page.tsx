@@ -1,15 +1,8 @@
 "use client";
 import { useState, useRef } from "react";
-import { detectFileType, FileType } from "@/lib/parsers/detect-type";
-import { parseSpRow } from "@/lib/parsers/sp-campaigns";
-import { parseSbRow } from "@/lib/parsers/sb-campaigns";
-import { parseSdRow } from "@/lib/parsers/sd-campaigns";
-import { parseAttributionRow } from "@/lib/parsers/attribution";
-import { parseOrderRow } from "@/lib/parsers/orders";
-import { parseListingRow } from "@/lib/parsers/listing";
-import { parseInventoryRow } from "@/lib/parsers/inventory";
-import { parseTrafficRow } from "@/lib/parsers/traffic";
-import { dbUpsert, dbClearAll } from "@/lib/supabase/db";
+import { detectFileType } from "@/lib/parsers/detect-type";
+import { ingest, TYPE_LABELS } from "@/lib/parsers/ingest";
+import { dbClearAll } from "@/lib/supabase/db";
 
 interface UploadResult {
   type?: string;
@@ -18,17 +11,6 @@ interface UploadResult {
   total: number;
   error?: string;
 }
-
-const TYPE_LABELS: Record<string, string> = {
-  sp: "SP Campaigns",
-  sb: "SB Campaigns",
-  sd: "SD Campaigns",
-  attribution: "Attribution",
-  orders: "Orders",
-  listing: "Listing",
-  inventory: "Inventory",
-  traffic: "Traffic",
-};
 
 async function parseFile(file: File): Promise<Record<string, unknown>[]> {
   const isXlsx = file.name.endsWith(".xlsx") || file.name.endsWith(".xls");
@@ -44,70 +26,6 @@ async function parseFile(file: File): Promise<Record<string, unknown>[]> {
   const text = await file.text();
   const result = Papa.parse<Record<string, unknown>>(text, { header: true, skipEmptyLines: true });
   return result.data;
-}
-
-async function ingest(
-  type: FileType,
-  rawRows: Record<string, unknown>[],
-): Promise<{ inserted: number; skipped: number; error?: string }> {
-  if (type === "sp") {
-    const rows = rawRows
-      .map((r) => parseSpRow(r))
-      .filter((r): r is NonNullable<typeof r> => !!r)
-      .map((r) => ({ ...r, type: "SP", cost_type: "CPC", new_to_brand_sales: 0, new_to_brand_purchases: 0 }));
-    const skipped = rawRows.length - rows.length;
-    const { inserted, error } = await dbUpsert("ad_campaigns", rows as unknown as Record<string, unknown>[]);
-    return { inserted, skipped, error };
-  }
-  if (type === "sb") {
-    const rows = rawRows
-      .map((r) => parseSbRow(r))
-      .filter((r): r is NonNullable<typeof r> => !!r)
-      .map((r) => ({ ...r, type: "SB" }));
-    const skipped = rawRows.length - rows.length;
-    const { inserted, error } = await dbUpsert("ad_campaigns", rows as unknown as Record<string, unknown>[]);
-    return { inserted, skipped, error };
-  }
-  if (type === "sd") {
-    const rows = rawRows
-      .map((r) => parseSdRow(r))
-      .filter((r): r is NonNullable<typeof r> => !!r)
-      .map((r) => ({ ...r, type: "SD", budget_type: "" }));
-    const skipped = rawRows.length - rows.length;
-    const { inserted, error } = await dbUpsert("ad_campaigns", rows as unknown as Record<string, unknown>[]);
-    return { inserted, skipped, error };
-  }
-  if (type === "attribution") {
-    const rows = rawRows.map((r) => parseAttributionRow(r)).filter((r): r is NonNullable<typeof r> => !!r);
-    const skipped = rawRows.length - rows.length;
-    const { inserted, error } = await dbUpsert("attribution", rows as unknown as Record<string, unknown>[]);
-    return { inserted, skipped, error };
-  }
-  if (type === "orders") {
-    const rows = rawRows.map((r) => parseOrderRow(r)).filter((r): r is NonNullable<typeof r> => !!r);
-    const skipped = rawRows.length - rows.length;
-    const { inserted, error } = await dbUpsert("orders", rows as unknown as Record<string, unknown>[]);
-    return { inserted, skipped, error };
-  }
-  if (type === "listing") {
-    const rows = rawRows.map((r) => parseListingRow(r)).filter((r): r is NonNullable<typeof r> => !!r);
-    const skipped = rawRows.length - rows.length;
-    const { inserted, error } = await dbUpsert("listing", rows as unknown as Record<string, unknown>[]);
-    return { inserted, skipped, error };
-  }
-  if (type === "inventory") {
-    const rows = rawRows.map((r) => parseInventoryRow(r)).filter((r): r is NonNullable<typeof r> => !!r);
-    const skipped = rawRows.length - rows.length;
-    const { inserted, error } = await dbUpsert("inventory", rows as unknown as Record<string, unknown>[]);
-    return { inserted, skipped, error };
-  }
-  if (type === "traffic") {
-    const rows = rawRows.map((r) => parseTrafficRow(r)).filter((r): r is NonNullable<typeof r> => !!r);
-    const skipped = rawRows.length - rows.length;
-    const { inserted, error } = await dbUpsert("traffic", rows as unknown as Record<string, unknown>[]);
-    return { inserted, skipped, error };
-  }
-  return { inserted: 0, skipped: rawRows.length };
 }
 
 export default function UploadPage() {

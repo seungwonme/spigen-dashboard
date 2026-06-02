@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import Sidebar from "./Sidebar";
 import GlobalFilter from "./GlobalFilter";
 import LogoutButton from "./LogoutButton";
+import SyncSheetButton from "./SyncSheetButton";
 
 export default function DashboardShell({
   children,
@@ -60,7 +61,8 @@ export default function DashboardShell({
           <div className="flex-1 min-w-0 overflow-x-auto">
             <GlobalFilter />
           </div>
-          <div className="pr-3 shrink-0">
+          <div className="flex items-center gap-3 pr-3 shrink-0">
+            <SyncSheetButton />
             <LogoutButton />
           </div>
         </div>
