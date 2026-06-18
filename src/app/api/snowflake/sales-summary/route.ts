@@ -28,35 +28,41 @@ sales_fx AS (
 ),
 maxd AS (SELECT MAX(REPORT_DATE) m FROM sales)`;
 
+// 보안 게이트: 인증 우회 라우트라 프로덕션/프리뷰 배포(NODE_ENV=production)에선 404로 차단(매출 노출 방지). 로컬 dev에서만 동작.
+const blockedInProd = process.env.NODE_ENV === "production";
+
 export async function GET() {
+  if (blockedInProd) return NextResponse.json({ error: "not found" }, { status: 404 });
   try {
     // 완전월만(진행 중인 당월 제외), 최근 13개월(YoY 계산용)
-    const monthly = await sfQuery<{ MONTH: string; SALES_KRW: number }>(`${CTE}
+    const monthly = await sfQuery<{ MONTH: string; SALES_KRW: number | null }>(`${CTE}
       SELECT TO_CHAR(DATE_TRUNC('month',REPORT_DATE),'YYYY-MM') MONTH, SUM(ops*rate) SALES_KRW
       FROM sales_fx, maxd
       WHERE REPORT_DATE < DATE_TRUNC('month', maxd.m)
       GROUP BY 1 ORDER BY 1 DESC LIMIT 13`);
 
     // 최근 완전월 국가별
-    const country = await sfQuery<{ CODE: string; SALES_KRW: number }>(`${CTE}
+    const country = await sfQuery<{ CODE: string; SALES_KRW: number | null }>(`${CTE}
       SELECT COUNTRY_CODE CODE, SUM(ops*rate) SALES_KRW
       FROM sales_fx, maxd
       WHERE DATE_TRUNC('month',REPORT_DATE) = DATEADD(month,-1,DATE_TRUNC('month',maxd.m))
       GROUP BY 1 ORDER BY 2 DESC`);
 
+    // 환율 미매칭 통화로 SUM이 NULL인 월/국가는 제외(0으로 강등 시 MoM=Infinity 방지)
     const months = monthly
-      .map((r) => ({ month: r.MONTH, salesKrw: Number(r.SALES_KRW) }))
+      .map((r) => ({ month: r.MONTH, salesKrw: r.SALES_KRW == null ? null : Number(r.SALES_KRW) }))
+      .filter((r): r is { month: string; salesKrw: number } => r.salesKrw != null && r.salesKrw > 0)
       .reverse(); // 오름차순
 
     return NextResponse.json({
       lastFullMonth: months.length ? months[months.length - 1].month : null,
       monthly: months,
-      country: country.map((r) => ({ code: r.CODE, salesKrw: Number(r.SALES_KRW) })),
+      country: country
+        .map((r) => ({ code: r.CODE, salesKrw: r.SALES_KRW == null ? 0 : Number(r.SALES_KRW) }))
+        .filter((r) => r.salesKrw > 0),
     });
   } catch (e) {
-    return NextResponse.json(
-      { error: e instanceof Error ? e.message : "snowflake query failed" },
-      { status: 500 },
-    );
+    console.error("[sf] sales-summary", e);
+    return NextResponse.json({ error: "snowflake query failed" }, { status: 500 });
   }
 }

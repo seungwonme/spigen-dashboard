@@ -13,6 +13,13 @@ const EOK = 1e8;
 const TARGET_KEY = "spigen-sales-target-eok";
 const fmtEok = (krw: number) => (krw / EOK).toLocaleString("ko-KR", { maximumFractionDigits: 1 });
 
+// "YYYY-MM"에 delta개월 더한 월 키 (월 경계 안전)
+function addMonths(ym: string, delta: number): string {
+  const [y, m] = ym.split("-").map(Number);
+  const dt = new Date(Date.UTC(y, m - 1 + delta, 1));
+  return `${dt.getUTCFullYear()}-${String(dt.getUTCMonth() + 1).padStart(2, "0")}`;
+}
+
 export default function SalesVsTargetCard() {
   const [data, setData] = useState<Payload | null>(null);
   const [err, setErr] = useState<string | null>(null);
@@ -20,7 +27,10 @@ export default function SalesVsTargetCard() {
 
   useEffect(() => {
     const saved = typeof window !== "undefined" ? window.localStorage.getItem(TARGET_KEY) : null;
-    if (saved) setTarget(Number(saved));
+    if (saved != null) {
+      const n = Number(saved);
+      if (Number.isFinite(n) && n >= 0) setTarget(n);
+    }
     fetch("/api/snowflake/sales-summary")
       .then((r) => r.json())
       .then((j) => (j.error ? setErr(j.error) : setData(j)))
@@ -28,30 +38,38 @@ export default function SalesVsTargetCard() {
   }, []);
 
   function updateTarget(v: number) {
-    setTarget(v);
-    if (typeof window !== "undefined") window.localStorage.setItem(TARGET_KEY, String(v));
+    const safe = Number.isFinite(v) && v >= 0 ? v : 0;
+    setTarget(safe);
+    if (typeof window !== "undefined") window.localStorage.setItem(TARGET_KEY, String(safe));
   }
 
   const calc = useMemo(() => {
     if (!data || data.monthly.length === 0) return null;
     const m = data.monthly;
     const last = m[m.length - 1];
-    const prev = m[m.length - 2];
-    const yoy = m[m.length - 13]; // 13개월이면 첫 항목
+    // 인덱스가 아니라 월 키(-1·-12)로 매칭 → 데이터 갭이 있어도 엉뚱한 달과 비교하지 않음
+    const byMonth = new Map(m.map((r) => [r.month, r.salesKrw]));
+    const prevVal = byMonth.get(addMonths(last.month, -1));
+    const yoyVal = byMonth.get(addMonths(last.month, -12));
     const actualEok = last.salesKrw / EOK;
     return {
       month: last.month,
       actualEok,
       achievement: target > 0 ? (actualEok / target) * 100 : null,
       gapEok: actualEok - target,
-      mom: prev ? (last.salesKrw / prev.salesKrw - 1) * 100 : null,
-      yoy: yoy ? (last.salesKrw / yoy.salesKrw - 1) * 100 : null,
+      mom: prevVal ? (last.salesKrw / prevVal - 1) * 100 : null,
+      yoy: yoyVal ? (last.salesKrw / yoyVal - 1) * 100 : null,
     };
   }, [data, target]);
 
+  // 색 비교는 막대값(미반올림)과 목표를 동일 기준으로 → 경계월 색 불일치 제거
   const chartData = useMemo(
-    () => (data?.monthly ?? []).map((r) => ({ month: r.month.slice(2), eok: Math.round(r.salesKrw / EOK) })),
-    [data],
+    () =>
+      (data?.monthly ?? []).map((r) => {
+        const eok = r.salesKrw / EOK;
+        return { month: r.month.slice(2), eok, met: eok >= target };
+      }),
+    [data, target],
   );
 
   const achColor = (a: number | null) =>
@@ -126,11 +144,11 @@ export default function SalesVsTargetCard() {
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
               <XAxis dataKey="month" tick={{ fontSize: 11 }} />
               <YAxis tick={{ fontSize: 11 }} />
-              <Tooltip formatter={(v) => `${v}억`} />
+              <Tooltip formatter={(v) => `${typeof v === "number" ? v.toFixed(1) : v}억`} />
               <ReferenceLine y={target} stroke="#dc2626" strokeDasharray="4 4" label={{ value: `목표 ${target}억`, position: "right", fontSize: 11, fill: "#dc2626" }} />
               <Bar dataKey="eok" name="매출" radius={[4, 4, 0, 0]}>
                 {chartData.map((d, i) => (
-                  <Cell key={i} fill={d.eok >= target ? "#16a34a" : "#3b82f6"} />
+                  <Cell key={i} fill={d.met ? "#16a34a" : "#3b82f6"} />
                 ))}
               </Bar>
             </BarChart>

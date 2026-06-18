@@ -3,6 +3,9 @@ import snowflake from "snowflake-sdk";
 import crypto from "node:crypto";
 import fs from "node:fs";
 
+// SDK 기본 INFO 로깅 억제 — 화면 공유 터미널에 연결 메타(계정·유저·역할) 노출 방지
+snowflake.configure({ logLevel: "ERROR" });
+
 // 키페어 인증: 파일에서만 읽고 base64 DER / PEM 자동 판별 → PEM 정규화. 키 문자열은 로그 금지.
 function loadPrivateKey(): string {
   const raw = fs.readFileSync(process.env.SNOWFLAKE_PRIVATE_KEY_PATH as string, "utf8").trim();

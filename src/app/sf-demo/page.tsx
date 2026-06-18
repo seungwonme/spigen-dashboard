@@ -4,6 +4,7 @@ import SnowflakeRegionCard from "@/components/cards/SnowflakeRegionCard";
 import SalesVsTargetCard from "@/components/cards/SalesVsTargetCard";
 
 export const dynamic = "force-dynamic";
+export const metadata = { robots: { index: false, follow: false } }; // 배포돼도 검색 비노출
 
 export default function SfDemoPage() {
   return (

@@ -20,12 +20,12 @@ export default function SnowflakeRegionCard() {
   return (
     <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-xl p-5">
       <div className="flex items-center justify-between mb-1">
-        <h2 className="text-sm font-semibold text-neutral-700 dark:text-neutral-200">지역별 주문수 — Snowflake 직결</h2>
+        <h2 className="text-sm font-semibold text-neutral-700 dark:text-neutral-200">권역별 주문 건수 — Snowflake 직결</h2>
         <span className="text-[11px] px-2 py-0.5 rounded-full bg-sky-100 text-sky-700 dark:bg-sky-900/40 dark:text-sky-300">
           회사 데이터창고 · 전체
         </span>
       </div>
-      <p className="text-xs text-neutral-400 mb-4">시트 동기화 샘플이 아니라 Snowflake 전체 주문을 실시간 집계합니다.</p>
+      <p className="text-xs text-neutral-400 mb-4">시트 샘플이 아니라 Snowflake 전체 주문(중복·취소 제외, SPIGEN)을 권역(EU=유럽 통합·IN·JP·SG) 단위로 실시간 집계합니다.</p>
 
       {err && <p className="text-sm text-red-500">불러오기 실패: {err}</p>}
       {!data && !err && <p className="text-sm text-neutral-400">Snowflake 조회 중...</p>}
