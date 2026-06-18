@@ -7,6 +7,7 @@ import {
 import KpiCard from "@/components/cards/KpiCard";
 import AiInsightCard from "@/components/cards/AiInsightCard";
 import SnowflakeRegionCard from "@/components/cards/SnowflakeRegionCard";
+import SalesVsTargetCard from "@/components/cards/SalesVsTargetCard";
 import { useFilterStore } from "@/store/filter-store";
 import { getSummary, type SummaryData } from "@/lib/queries/summary";
 
@@ -49,6 +50,9 @@ export default function SummaryPage() {
         <KpiCard label="평균 CTR" value={data.avgCtr !== null ? fmt(data.avgCtr, 2) : null} unit="%" />
         <KpiCard label="평균 Buy Box" value={data.avgBuyBox !== null ? fmt(data.avgBuyBox, 1) : null} unit="%" />
       </div>
+
+      {/* ★ Snowflake 통합 가치 — 목표 대비 실적(정확 KRW) + 내 목표 결합 */}
+      <SalesVsTargetCard />
 
       {/* AI 인사이트 브리핑 */}
       <AiInsightCard data={data} dateFrom={dateFrom} dateTo={dateTo} />
