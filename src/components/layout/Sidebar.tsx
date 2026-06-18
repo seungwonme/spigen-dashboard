@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 
 const NAV = [
   { href: "/", label: "Executive Summary", icon: "▦" },
+  { href: "/snowflake", label: "Snowflake 통합", icon: "❄" },
   { href: "/ads", label: "광고 성과", icon: "◈" },
   { href: "/products", label: "상품 성과", icon: "◉" },
   { href: "/inventory", label: "재고 관리", icon: "▣" },
