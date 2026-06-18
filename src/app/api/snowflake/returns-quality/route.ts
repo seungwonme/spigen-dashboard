@@ -4,8 +4,6 @@ import { sfQuery } from "@/lib/snowflake/query";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const blockedInProd = process.env.NODE_ENV === "production";
-
 // FBA 고객 반품 최근 12개월 — 처리상태(귀책)별 수량 + 사유 TOP. customer-comments(PII) 미조회.
 const DISP_SQL =
   `SELECT "detailed-disposition" AS disp, SUM(TRY_TO_NUMBER(TO_VARCHAR("quantity"))) AS qty ` +
@@ -20,7 +18,6 @@ const REASON_SQL =
   `GROUP BY 1 ORDER BY 2 DESC NULLS LAST LIMIT 8`;
 
 export async function GET() {
-  if (blockedInProd) return NextResponse.json({ error: "not found" }, { status: 404 });
   try {
     const [disp, reason] = await Promise.all([
       sfQuery<{ DISP: string; QTY: number }>(DISP_SQL),

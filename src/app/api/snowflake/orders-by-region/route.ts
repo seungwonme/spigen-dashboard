@@ -4,9 +4,6 @@ import { sfQuery } from "@/lib/snowflake/query";
 export const runtime = "nodejs"; // snowflake-sdk는 node 전용 (edge 불가)
 export const dynamic = "force-dynamic"; // 라이브 데이터, 캐시 금지
 
-// 보안 게이트: 인증 우회 라우트라 프로덕션/프리뷰 배포(NODE_ENV=production)에선 404로 차단(매출·주문 노출 방지). 로컬 dev에서만 동작.
-const blockedInProd = process.env.NODE_ENV === "production";
-
 // 정확한 주문 수: COUNT(DISTINCT "amazon-order-id") + SPIGEN 브랜드 + 취소 제외 + item-price 존재.
 // COUNT(*)는 라인아이템×스냅샷 재적재라 ~19% 과대(SPEC 주문수 레시피). 소문자·하이픈 컬럼 큰따옴표 필수.
 const SQL =
@@ -16,7 +13,6 @@ const SQL =
   `GROUP BY 1 ORDER BY 2 DESC LIMIT 10`;
 
 export async function GET() {
-  if (blockedInProd) return NextResponse.json({ error: "not found" }, { status: 404 });
   try {
     const rows = await sfQuery<{ REGION: string; ORDERS: number }>(SQL);
     const data = rows.map((r) => ({ region: r.REGION, orders: Number(r.ORDERS) }));

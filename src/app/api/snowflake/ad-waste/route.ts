@@ -4,8 +4,6 @@ import { sfQuery } from "@/lib/snowflake/query";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const blockedInProd = process.env.NODE_ENV === "production";
-
 // SP 광고 키워드 단위 최근 90일 집계(DE). 소문자·하이픈 컬럼 큰따옴표 필수.
 // ROAS는 행별 AVG 금지 → 클라에서 SUM(sales)/SUM(cost). 낭비 임계는 사용자가 카드에서 조절.
 const SQL =
@@ -19,7 +17,6 @@ const SQL =
   `ORDER BY cost DESC LIMIT 600`;
 
 export async function GET() {
-  if (blockedInProd) return NextResponse.json({ error: "not found" }, { status: 404 });
   try {
     const rows = await sfQuery<{ KEYWORD: string; MATCH_TYPE: string; COST: number; SALES: number; CLICKS: number }>(SQL);
     const keywords = rows.map((r) => ({

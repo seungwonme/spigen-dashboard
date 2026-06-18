@@ -28,11 +28,7 @@ sales_fx AS (
 ),
 maxd AS (SELECT MAX(REPORT_DATE) m FROM sales)`;
 
-// 보안 게이트: 인증 우회 라우트라 프로덕션/프리뷰 배포(NODE_ENV=production)에선 404로 차단(매출 노출 방지). 로컬 dev에서만 동작.
-const blockedInProd = process.env.NODE_ENV === "production";
-
 export async function GET() {
-  if (blockedInProd) return NextResponse.json({ error: "not found" }, { status: 404 });
   try {
     // 완전월만(진행 중인 당월 제외), 최근 13개월(YoY 계산용)
     const monthly = await sfQuery<{ MONTH: string; SALES_KRW: number | null }>(`${CTE}

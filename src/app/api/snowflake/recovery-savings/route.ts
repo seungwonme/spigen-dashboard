@@ -4,8 +4,6 @@ import { sfQuery } from "@/lib/snowflake/query";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const blockedInProd = process.env.NODE_ENV === "production";
-
 // 아마존 권장조치별 '예상 회수액'(estimated-cost-savings). 다통화 → SAP TCURR as-of KRW 환산(JPY/100).
 // 최신 스냅샷만(QUALIFY), savings 'None'/0 제외. 검증: 총 ≈11.8억 KRW.
 const SQL = `
@@ -32,7 +30,6 @@ SELECT action AS action, SUM(savings*rate) AS krw, COUNT(*) AS skus
 FROM plan_fx GROUP BY 1 ORDER BY 2 DESC NULLS LAST`;
 
 export async function GET() {
-  if (blockedInProd) return NextResponse.json({ error: "not found" }, { status: 404 });
   try {
     const rows = await sfQuery<{ ACTION: string; KRW: number; SKUS: number }>(SQL);
     const actions = rows

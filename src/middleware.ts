@@ -52,7 +52,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // 리허설: sf-demo·api/snowflake는 Supabase 인증 우회(데모 후 되돌릴 것)
-    "/((?!sf-demo|api/snowflake|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };
