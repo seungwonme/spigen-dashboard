@@ -6,6 +6,7 @@ import {
 } from "recharts";
 import KpiCard from "@/components/cards/KpiCard";
 import AiInsightCard from "@/components/cards/AiInsightCard";
+import SnowflakeRegionCard from "@/components/cards/SnowflakeRegionCard";
 import { useFilterStore } from "@/store/filter-store";
 import { getSummary, type SummaryData } from "@/lib/queries/summary";
 
@@ -51,6 +52,9 @@ export default function SummaryPage() {
 
       {/* AI 인사이트 브리핑 */}
       <AiInsightCard data={data} dateFrom={dateFrom} dateTo={dateTo} />
+
+      {/* Snowflake 직결 — 회사 데이터창고 전체 주문(시트 샘플 아님) */}
+      <SnowflakeRegionCard />
 
       {/* 매출 vs 광고비 추세 */}
       <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-xl p-5">
