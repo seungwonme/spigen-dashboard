@@ -8,7 +8,11 @@ snowflake.configure({ logLevel: "ERROR" });
 
 // 키페어 인증: 파일에서만 읽고 base64 DER / PEM 자동 판별 → PEM 정규화. 키 문자열은 로그 금지.
 function loadPrivateKey(): string {
-  const raw = fs.readFileSync(process.env.SNOWFLAKE_PRIVATE_KEY_PATH as string, "utf8").trim();
+  const raw = (process.env.SNOWFLAKE_PRIVATE_KEY?.replace(/\\n/g, "\n")
+    ?? (process.env.SNOWFLAKE_PRIVATE_KEY_PATH
+      ? fs.readFileSync(process.env.SNOWFLAKE_PRIVATE_KEY_PATH, "utf8")
+      : "")).trim();
+  if (!raw) throw new Error("SNOWFLAKE_PRIVATE_KEY or SNOWFLAKE_PRIVATE_KEY_PATH env is required");
   if (raw.includes("BEGIN")) return raw;
   return crypto
     .createPrivateKey({ key: Buffer.from(raw.replace(/\s+/g, ""), "base64"), format: "der", type: "pkcs8" })
