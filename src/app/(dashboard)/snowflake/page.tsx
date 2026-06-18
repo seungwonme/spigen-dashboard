@@ -2,6 +2,9 @@
 // 각 기능을 기존(시트 샘플) → +Snowflake(전체·정확) Before/After로 제시.
 import SalesVsTargetCard from "@/components/cards/SalesVsTargetCard";
 import SnowflakeRegionCard from "@/components/cards/SnowflakeRegionCard";
+import AdWasteCard from "@/components/cards/AdWasteCard";
+import RecoverySavingsCard from "@/components/cards/RecoverySavingsCard";
+import ReturnsQualityCard from "@/components/cards/ReturnsQualityCard";
 
 export const dynamic = "force-dynamic";
 
@@ -39,6 +42,27 @@ export default function SnowflakePage() {
         after="SAP 환율로 정확 KRW 환산(중복 제거·JPY/100) + 내 목표를 결합해 '목표 대비 달성률'을 신설."
       >
         <SalesVsTargetCard />
+      </ValueFrame>
+
+      <ValueFrame
+        before="광고 분석이 채널·캠페인 단위까지만, 키워드·검색어 축이 전혀 없음."
+        after="키워드 단위 ROAS로 '내 목표 미달' 새는 광고비를 실시간 집계(€88k 회수 후보)."
+      >
+        <AdWasteCard />
+      </ValueFrame>
+
+      <ValueFrame
+        before="재고가 얼마나 묶였는지만 보여주고, '어떻게 회수하나'는 없음."
+        after="아마존 권장조치별 회수액을 원화로 환산(다통화 통합) → 실행 액션을 골라 회수 목표(약 11.8억)로."
+      >
+        <RecoverySavingsCard />
+      </ValueFrame>
+
+      <ValueFrame
+        before="반품을 사유 목록으로만 보여주고, 누구 책임(귀책)인지 안 갈림."
+        after="처리상태로 귀책(우리 품질·고객·배송사)을 갈라 재판매 가능률·개선/클레임 대상을 분리."
+      >
+        <ReturnsQualityCard />
       </ValueFrame>
 
       <ValueFrame
